@@ -1,12 +1,26 @@
 package ufersa.com.br.labor_renter.domain.entities;
 
-public class userAbstract {
-    Long id;
-    String cpf;
-    String nome;
-    String email;
-    String senha;
-    //Endereco endereco[];
+import jakarta.persistence.*;
+
+@MappedSuperclass
+public class UserAbstract {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String cpf;
+
+    @Column(nullable = false)
+    private String nome;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String senha;
+
+    //private Endereco endereco[];
 
 
     public Long getId() {
