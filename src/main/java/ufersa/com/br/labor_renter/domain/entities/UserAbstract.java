@@ -2,7 +2,10 @@ package ufersa.com.br.labor_renter.domain.entities;
 
 import jakarta.persistence.*;
 
-@MappedSuperclass
+import java.util.List;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserAbstract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +23,8 @@ public class UserAbstract {
     @Column(nullable = false)
     private String senha;
 
-    //private Endereco endereco[];
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> enderecos;
 
     public Long getId() {
         return id;
