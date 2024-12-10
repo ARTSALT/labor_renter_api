@@ -26,6 +26,14 @@ public class UserAbstract {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> enderecos;
 
+    public List<Address> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Address> enderecos) {
+        this.enderecos = enderecos;
+    }
+
     public Long getId() {
         return id;
     }
