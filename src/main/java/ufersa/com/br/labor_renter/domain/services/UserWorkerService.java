@@ -40,11 +40,11 @@ public class UserWorkerService {
         UserWorker userWorkerExist = userWorkerRepository.findById(id)
                 .orElseThrow(() -> new Exception("ID inexistente"));
 
-        userWorkerExist.setNome(u.getNome());
+        userWorkerExist.setName(u.getName());
         userWorkerExist.setCpf(u.getCpf());
         userWorkerExist.setDocumento(u.getDocumento());
         userWorkerExist.setEmail(u.getEmail());
-        userWorkerExist.setSenha(u.getSenha());
+        userWorkerExist.setPassword(u.getPassword());
 
         return userWorkerRepository.save(userWorkerExist);
     }

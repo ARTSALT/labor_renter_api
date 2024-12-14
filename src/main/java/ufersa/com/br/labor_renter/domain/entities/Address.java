@@ -1,9 +1,15 @@
 package ufersa.com.br.labor_renter.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Table(name="tb_address")
+@Table(name="address")
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,49 +25,9 @@ public class Address {
     private Integer houseNumber;
 
     @Column
-    private String complemento;
+    private String complement;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserAbstract user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getRua() {
-        return rua;
-    }
-
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public Integer getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(Integer houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
+    @JoinColumn(name = "contractor_id", referencedColumnName = "id")
+    private Contractor user;
 }

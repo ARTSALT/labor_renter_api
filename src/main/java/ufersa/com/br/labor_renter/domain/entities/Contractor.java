@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Table(name = "contractors")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
 @Getter
 @Setter
@@ -43,5 +44,6 @@ public class Contractor {
 
     @Column(name = "contracted_electricians",nullable = false)
     int contractedElectricians;
+
     //Trabalho TrabalhoEmAndamento;
 }
