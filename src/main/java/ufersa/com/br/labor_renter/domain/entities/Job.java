@@ -1,7 +1,11 @@
 package ufersa.com.br.labor_renter.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "job")
 public class Job {
