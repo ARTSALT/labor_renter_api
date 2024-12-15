@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ufersa.com.br.labor_renter.domain.entities.Contract;
-import ufersa.com.br.labor_renter.domain.entities.Contractor;
-import ufersa.com.br.labor_renter.domain.entities.Job;
-import ufersa.com.br.labor_renter.domain.entities.UserWorker;
 
 @Getter
 @Setter
