@@ -16,11 +16,15 @@ public class ContractCreateRequest {
     @NotBlank(message = "O campo é obrigatório")
     private Long userWorkerId;
 
+    @NotBlank(message = "O campo é obrigatório")
+    private Long contractorId;
+
     @NotBlank(message = "O campo trabalho é obrigatório")
     private Long jobId;
 
     public ContractCreateRequest(Contract entity) {
         this.userWorkerId = entity.getWorker().getId();
+        this.contractorId = entity.getContractor().getId();
         this.jobId = entity.getJob().getId();
     }
 }
