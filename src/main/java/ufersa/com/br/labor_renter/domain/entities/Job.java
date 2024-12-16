@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -19,7 +21,7 @@ public class Job {
     private UserWorker worker;
 
     @Column(nullable = false)
-    private Double avaliation;
+    private Double avaliation = 0.0;
 
     @Column(nullable = false)
     private String description;
@@ -28,7 +30,8 @@ public class Job {
     @JoinColumn(name = "Address_id", referencedColumnName = "id", nullable = false)
     private Address location;
 
-    // private List<Contract> contracts;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contract> contracts;
 
     /*public void updateAvaliation(double avaliation) {
         setAvaliation(getAvaliation() + avaliation / getContracts.length() + 1);
