@@ -6,35 +6,35 @@ import ufersa.com.br.labor_renter.api.dto.requests.ContractorCreateRequest;
 import ufersa.com.br.labor_renter.api.dto.requests.ContractorRequest;
 import ufersa.com.br.labor_renter.api.dto.responses.ContractorResponse;
 import ufersa.com.br.labor_renter.domain.entities.Contractor;
-import ufersa.com.br.labor_renter.domain.repositories.ContractorRespository;
+import ufersa.com.br.labor_renter.domain.repositories.ContractorRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ContractorService {
-    private final ContractorRespository contractorRespository;
+    private final ContractorRepository contractorRepository;
 
-    public ContractorService(ContractorRespository contractorRespository) {
-        this.contractorRespository = contractorRespository;
+    public ContractorService(ContractorRepository contractorRepository) {
+        this.contractorRepository = contractorRepository;
     }
 
     public List<ContractorResponse> listALl() {
-        List<Contractor> response = contractorRespository.findAll();
+        List<Contractor> response = contractorRepository.findAll();
 
         return response.stream().map(ContractorResponse::new).collect(Collectors.toList());
     }
 
     public ContractorResponse create(ContractorCreateRequest request) {
-        if (contractorRespository.existsByEmail(request.getEmail())) {
+        if (contractorRepository.existsByEmail(request.getEmail())) {
             throw new DataIntegrityViolationException("Email já cadastrado");
         }
 
-        if (contractorRespository.existsByCpf(request.getCpf())) {
+        if (contractorRepository.existsByCpf(request.getCpf())) {
             throw new DataIntegrityViolationException("Cpf já cadastrado");
         }
 
-        if (contractorRespository.existsByPassword(request.getPassword())) {
+        if (contractorRepository.existsByPassword(request.getPassword())) {
             throw new DataIntegrityViolationException("Senha já cadastrada");
         }
 
@@ -48,13 +48,13 @@ public class ContractorService {
                 .contractedPlumbers(0)
                 .build();
 
-        entity = contractorRespository.save(entity);
+        entity = contractorRepository.save(entity);
 
         return new ContractorResponse(entity);
     }
 
     public ContractorResponse get(long contractor_id) {
-        Contractor entity = contractorRespository.findById(contractor_id).orElseThrow(
+        Contractor entity = contractorRepository.findById(contractor_id).orElseThrow(
                 () -> new DataIntegrityViolationException("Contractante Não Encontrado")
         );
 
@@ -62,15 +62,15 @@ public class ContractorService {
     }
 
     public void delete(long contractor_id) {
-        if(contractorRespository.existsById(contractor_id)) {
+        if(contractorRepository.existsById(contractor_id)) {
             throw new DataIntegrityViolationException("Contratante não Existe");
         }
 
-        contractorRespository.deleteById(contractor_id);
+        contractorRepository.deleteById(contractor_id);
     }
 
     public ContractorResponse update(ContractorRequest patch, long contractor_id) {
-        Contractor entity = contractorRespository.findById(contractor_id).orElseThrow(() ->
+        Contractor entity = contractorRepository.findById(contractor_id).orElseThrow(() ->
                 new DataIntegrityViolationException("Contractante não Existe")
         );
 
@@ -78,7 +78,7 @@ public class ContractorService {
         entity.setEmail(patch.getEmail() != null ? patch.getEmail() : entity.getEmail());
         entity.setPassword(patch.getPassword() != null ? patch.getPassword() : entity.getPassword());
 
-        entity = contractorRespository.save(entity);
+        entity = contractorRepository.save(entity);
 
         return new ContractorResponse(entity);
     }

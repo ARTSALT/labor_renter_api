@@ -5,7 +5,7 @@ import ufersa.com.br.labor_renter.domain.entities.Contractor;
 
 import java.util.Optional;
 
-public interface ContractorRespository extends JpaRepository<Contractor, Long> {
+public interface ContractorRepository extends JpaRepository<Contractor, Long> {
     Optional<Contractor> findByEmail(String email);
     boolean existsByEmail(String email);
 
