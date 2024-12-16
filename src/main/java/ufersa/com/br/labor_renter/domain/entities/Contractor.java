@@ -49,7 +49,5 @@ public class Contractor {
     @Column(name = "contracted_electricians",nullable = false)
     int contractedElectricians;
 
-    @OneToOne(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true,
-    targetEntity = Job.class, fetch = FetchType.EAGER)
-    Job TrabalhoEmAndamento;
+
 }
