@@ -1,15 +1,15 @@
 package ufersa.com.br.labor_renter.domain.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Table(name = "job")
-@Builder
+import java.util.List;
+
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "job")
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,13 +20,8 @@ public class Job {
     @JoinColumn(name = "worker_id", referencedColumnName = "id", nullable = false)
     private UserWorker worker;
 
-
-    @OneToOne
-    @JoinColumn(name = "contractor_id", referencedColumnName = "id", nullable = false)
-    private Contractor contractor;
-
     @Column(nullable = false)
-    private Double avaliation;
+    private Double avaliation = 0.0;
 
     @Column(nullable = false)
     private String description;
@@ -35,7 +30,8 @@ public class Job {
     @JoinColumn(name = "Address_id", referencedColumnName = "id", nullable = false)
     private Address location;
 
-    // private List<Contract> contracts;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contract> contracts;
 
     /*public void updateAvaliation(double avaliation) {
         setAvaliation(getAvaliation() + avaliation / getContracts.length() + 1);
