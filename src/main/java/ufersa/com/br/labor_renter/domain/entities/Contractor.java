@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Table(name = "contractors")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
@@ -34,7 +36,9 @@ public class Contractor {
     @Column(name = "password", nullable = false)
     String password;
 
-    //Endereco endereco[];
+    @OneToMany(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true,
+            targetEntity = Address.class, fetch = FetchType.EAGER)
+    List<Address> address;
 
     @Column(name = "contracted_plumbers",nullable = false)
     int contractedPlumbers;
@@ -45,5 +49,7 @@ public class Contractor {
     @Column(name = "contracted_electricians",nullable = false)
     int contractedElectricians;
 
-    //Trabalho TrabalhoEmAndamento;
+    @OneToOne(mappedBy = "contractor", cascade = CascadeType.ALL, orphanRemoval = true,
+    targetEntity = Job.class, fetch = FetchType.EAGER)
+    Job TrabalhoEmAndamento;
 }

@@ -13,6 +13,7 @@ import lombok.*;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -29,5 +30,5 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "contractor_id", referencedColumnName = "id")
-    private Contractor user;
+    private Contractor contractor;
 }
