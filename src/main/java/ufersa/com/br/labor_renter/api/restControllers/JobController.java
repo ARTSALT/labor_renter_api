@@ -3,30 +3,30 @@ package ufersa.com.br.labor_renter.api.restControllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ufersa.com.br.labor_renter.api.dto.requests.ContractCreateRequest;
-import ufersa.com.br.labor_renter.api.dto.responses.ContractResponse;
-import ufersa.com.br.labor_renter.domain.services.ContractService;
+import ufersa.com.br.labor_renter.api.dto.requests.JobRequest;
+import ufersa.com.br.labor_renter.api.dto.responses.JobResponse;
+import ufersa.com.br.labor_renter.domain.services.JobService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/contract")
-public class ContractController {
-    private final ContractService service;
+@RequestMapping("api/v1/job")
+public class JobController {
+    private final JobService service;
 
-    public ContractController(ContractService service) {
+    public JobController(JobService service) {
         this.service = service;
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ContractResponse>> findAll() {
+    public ResponseEntity<List<JobResponse>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ContractResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<JobResponse> findById(@PathVariable Long id) {
         try {
-            ContractResponse response = service.findById(id);
+            JobResponse response = service.findById(id);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -36,9 +36,9 @@ public class ContractController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ContractResponse> create(@RequestBody ContractCreateRequest request) {
+    public ResponseEntity<JobResponse> create(@RequestBody JobRequest request) {
         try {
-            ContractResponse response = service.create(request);
+            JobResponse response = service.create(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -46,9 +46,9 @@ public class ContractController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ContractResponse> update(@PathVariable Long id, @RequestBody ContractCreateRequest request) {
+    public ResponseEntity<JobResponse> update(@PathVariable Long id, @RequestBody JobRequest request) {
         try {
-            ContractResponse response = service.update(id, request);
+            JobResponse response = service.update(id, request);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
