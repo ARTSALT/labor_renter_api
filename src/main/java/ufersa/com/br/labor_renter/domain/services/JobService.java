@@ -1,5 +1,6 @@
 package ufersa.com.br.labor_renter.domain.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ufersa.com.br.labor_renter.api.dto.requests.JobRequest;
@@ -38,6 +39,7 @@ public class JobService {
         return new JobResponse(j);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public JobResponse create(JobRequest request) {
         UserWorker worker = userWorkerRepository.findById(request.getWorkerId())
                 .orElseThrow(() -> new IllegalArgumentException("Trabalhador não encontrado"));
@@ -56,6 +58,7 @@ public class JobService {
         return new JobResponse(savedJob);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public void delete(Long id) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Trabalho com ID " + id + " não encontrado"));
@@ -63,6 +66,7 @@ public class JobService {
         jobRepository.delete(job);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public JobResponse update(Long id, JobRequest request) {
         Job existingJob = jobRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Trabalho com ID " + id + " não encontrado"));

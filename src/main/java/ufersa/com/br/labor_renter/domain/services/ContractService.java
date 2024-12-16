@@ -1,5 +1,6 @@
 package ufersa.com.br.labor_renter.domain.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ufersa.com.br.labor_renter.api.dto.requests.ContractCreateRequest;
@@ -44,6 +45,7 @@ public class ContractService {
         return new ContractResponse(c);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public ContractResponse create(ContractCreateRequest request) {
         Contractor contractor = contractorRepository.findById(request.getContractorId())
                 .orElseThrow(() -> new IllegalArgumentException("Contratante não encontrado"));
@@ -63,6 +65,7 @@ public class ContractService {
         return new ContractResponse(contractRepository.save(entity));
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public void delete(Long id) {
         Contract contract = contractRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Contrato com ID " + id + " não encontrado"));
@@ -70,6 +73,7 @@ public class ContractService {
         contractRepository.delete(contract);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public ContractResponse update(Long id, ContractCreateRequest request) {
         Contract existingContract = contractRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Contrato com ID " + id + " não encontrado"));

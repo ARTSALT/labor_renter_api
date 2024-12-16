@@ -1,5 +1,6 @@
 package ufersa.com.br.labor_renter.domain.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ufersa.com.br.labor_renter.api.dto.requests.AddressRequest;
@@ -56,6 +57,7 @@ public class AddressService {
         return new AddressResponse(entity);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public AddressResponse create(long user_id, AddressRequest request) {
         Contractor user = contractorRepository.findById(user_id).orElseThrow(
                 () -> new DataIntegrityViolationException("Usuário não existe")
@@ -85,6 +87,7 @@ public class AddressService {
         return new AddressResponse(entity);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public void delete(long address_id) {
         Address address = addressRepository.findById(address_id).orElseThrow(
                 () -> new DataIntegrityViolationException("Endereço não registrado")
@@ -93,6 +96,7 @@ public class AddressService {
         addressRepository.delete(address);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public AddressResponse update(long address_id, AddressRequest request) {
         Address entity = addressRepository.findById(address_id).orElseThrow(
                 () -> new DataIntegrityViolationException("Endereço não registrado")

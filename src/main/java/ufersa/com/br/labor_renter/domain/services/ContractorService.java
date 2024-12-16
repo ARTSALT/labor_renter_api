@@ -1,5 +1,6 @@
 package ufersa.com.br.labor_renter.domain.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ufersa.com.br.labor_renter.api.dto.requests.ContractorCreateRequest;
@@ -25,6 +26,7 @@ public class ContractorService {
         return response.stream().map(ContractorResponse::new).collect(Collectors.toList());
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public ContractorResponse create(ContractorCreateRequest request) {
         if (contractorRepository.existsByEmail(request.getEmail())) {
             throw new DataIntegrityViolationException("Email já cadastrado");
@@ -61,6 +63,7 @@ public class ContractorService {
         return new ContractorResponse(entity);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public void delete(long contractor_id) {
         if(contractorRepository.existsById(contractor_id)) {
             throw new DataIntegrityViolationException("Contratante não Existe");
@@ -69,6 +72,7 @@ public class ContractorService {
         contractorRepository.deleteById(contractor_id);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public ContractorResponse update(ContractorRequest patch, long contractor_id) {
         Contractor entity = contractorRepository.findById(contractor_id).orElseThrow(() ->
                 new DataIntegrityViolationException("Contractante não Existe")
