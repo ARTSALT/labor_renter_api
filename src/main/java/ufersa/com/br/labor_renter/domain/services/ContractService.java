@@ -1,6 +1,7 @@
 package ufersa.com.br.labor_renter.domain.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ufersa.com.br.labor_renter.api.dto.requests.ContractCreateRequest;
 import ufersa.com.br.labor_renter.api.dto.responses.ContractResponse;
@@ -39,16 +40,14 @@ public class ContractService {
         return response.stream().map(ContractResponse::new).collect(Collectors.toList());
     }
 
-    public Contract findById(Long id) throws Exception {
-        try {
-            return contractRepository.findById(id)
-                    .orElseThrow(() -> new Exception("ID inexistente"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ContractResponse findById(Long id) throws Exception {
+        Contract c = contractRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException("Id não encontrado"));
+
+        return new ContractResponse(c);
     }
 
-    public Contract create(ContractCreateRequest request) {
+    public ContractResponse create(ContractCreateRequest request) {
         Contractor contractor = contractorRepository.findById(request.getContractorId())
                 .orElseThrow(() -> new IllegalArgumentException("Contratante não encontrado"));
 
@@ -64,7 +63,7 @@ public class ContractService {
                 .job(job)
                 .build();
 
-        return contractRepository.save(entity);
+        return new ContractResponse(contractRepository.save(entity));
     }
 
     public void delete(Long id) {
@@ -74,7 +73,7 @@ public class ContractService {
         contractRepository.delete(contract);
     }
 
-    public Contract update(Long id, ContractCreateRequest request) {
+    public ContractResponse update(Long id, ContractCreateRequest request) {
         Contract existingContract = contractRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Contrato com ID " + id + " não encontrado"));
 
@@ -91,7 +90,7 @@ public class ContractService {
         existingContract.setWorker(worker);
         existingContract.setJob(job);
 
-        return contractRepository.save(existingContract);
+        return new ContractResponse(contractRepository.save(existingContract));
     }
 
 }
