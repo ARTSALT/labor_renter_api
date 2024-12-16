@@ -25,7 +25,7 @@ public class ContractorController {
         return new ResponseEntity<>(service.listALl(), HttpStatus.FOUND);
     }
 
-    @PostMapping("create")
+    @PostMapping("")
     public ResponseEntity<ContractorResponse> create(@Valid @RequestBody ContractorCreateRequest request) {
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }

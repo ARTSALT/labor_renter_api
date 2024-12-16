@@ -1,27 +1,27 @@
 package ufersa.com.br.labor_renter.api.dto.responses;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ufersa.com.br.labor_renter.domain.entities.Address;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddressResponse {
-    @NotBlank
+    long id;
     String cep;
-
-    @NotBlank(message = "O campo rua é obrigatório")
-    String rua;
-
-    @NotBlank(message = "O campo número é obrigatório")
+    String street;
     int houseNumber;
-
     String complement;
-
-    @NotEmpty(message = "O id do contratante é obrigatório")
     long contractor_id;
 
     public AddressResponse(Address address) {
+        this.id = address.getId();
         this.cep = address.getCep();
-        this.rua = address.getRua();
+        this.street = address.getStreet();
         this.houseNumber = address.getHouseNumber();
         this.complement = address.getComplement();
         this.contractor_id = address.getContractor().getId();

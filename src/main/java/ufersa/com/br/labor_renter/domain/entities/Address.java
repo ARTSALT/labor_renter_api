@@ -20,7 +20,7 @@ public class Address {
     private String cep;
 
     @Column(nullable = false)
-    private String rua;
+    private String street;
 
     @Column(nullable = false)
     private Integer houseNumber;
