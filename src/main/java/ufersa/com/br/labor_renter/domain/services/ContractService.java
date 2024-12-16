@@ -20,19 +20,17 @@ import java.util.stream.Collectors;
 @Service
 public class ContractService {
     private final ContractRepository contractRepository;
+    private final ContractorRepository contractorRepository;
+    private final UserWorkerRepository userWorkerRepository;
+    private final JobRepository jobRepository;
 
-    public ContractService(ContractRepository contractRepository) {
+    public ContractService(ContractRepository contractRepository, ContractorRepository contractorRepository, UserWorkerRepository userWorkerRepository, JobRepository jobRepository) {
         this.contractRepository = contractRepository;
+        this.contractorRepository = contractorRepository;
+        this.userWorkerRepository = userWorkerRepository;
+        this.jobRepository = jobRepository;
     }
 
-    @Autowired
-    private ContractorRepository contractorRepository;
-
-    @Autowired
-    private UserWorkerRepository userWorkerRepository;
-
-    @Autowired
-    private JobRepository jobRepository;
 
     public List<ContractResponse> findAll() {
         List<Contract> response = contractRepository.findAll();
@@ -40,7 +38,7 @@ public class ContractService {
         return response.stream().map(ContractResponse::new).collect(Collectors.toList());
     }
 
-    public ContractResponse findById(Long id) throws Exception {
+    public ContractResponse findById(Long id) {
         Contract c = contractRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException("Id não encontrado"));
 
