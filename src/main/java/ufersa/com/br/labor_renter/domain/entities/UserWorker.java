@@ -1,6 +1,8 @@
 package ufersa.com.br.labor_renter.domain.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 
@@ -11,12 +13,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserWorker extends Contractor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false)
-    private Long id;
-
     @Column(nullable = false)
     private String documento;
 
