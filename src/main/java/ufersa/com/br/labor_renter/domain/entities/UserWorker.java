@@ -15,4 +15,5 @@ import lombok.*;
 public class UserWorker extends Contractor {
     @Column(nullable = false)
     private String documento;
+
 }
