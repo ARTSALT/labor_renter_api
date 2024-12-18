@@ -2,11 +2,15 @@ package ufersa.com.br.labor_renter.domain.services;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import ufersa.com.br.labor_renter.domain.entities.UserWorker;
 import ufersa.com.br.labor_renter.domain.repositories.UserWorkerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserWorkerService {
@@ -19,13 +23,13 @@ public class UserWorkerService {
     }
 
     // depois fazer exceptions personalizadas
-    public UserWorker findById(Long id) throws Exception {
-        try {
-            return userWorkerRepository.findById(id)
-                    .orElseThrow(() -> new Exception("ID inexistente"));
-        } catch (Exception e) {
-            throw new Exception(e);
-        }
+    public ResponseEntity<UserWorker> findById(@PathVariable Long id) {
+        UserWorkerService userWorkerService = null;
+        Optional<UserWorker> userWorkerOpt = userWorkerService.findById(id);
+
+        // Usando map para manipular o Optional
+        return userWorkerOpt.map(userWorker -> new ResponseEntity<>(userWorker, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Transactional(rollbackOn = Exception.class)

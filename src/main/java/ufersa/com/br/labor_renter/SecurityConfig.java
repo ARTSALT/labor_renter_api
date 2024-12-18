@@ -64,7 +64,7 @@ public class SecurityConfig  {
                 . authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(HttpMethod.POST,"/api/v1/login","/api/v1/contractor/").permitAll()
                         .requestMatchers(HttpMethod.GET,"/labor_renter/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/labor_renter?**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/labor_renter/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new LoginFilter("/api/v1/login", authenticationManager(authenticationConfiguration())), UsernamePasswordAuthenticationFilter.class)
