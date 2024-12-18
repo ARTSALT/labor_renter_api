@@ -4,12 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ufersa.com.br.labor_renter.api.dto.responses.ContractorResponse;
 import ufersa.com.br.labor_renter.domain.entities.UserWorker;
 import ufersa.com.br.labor_renter.domain.services.UserWorkerService;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/UserWorker")
