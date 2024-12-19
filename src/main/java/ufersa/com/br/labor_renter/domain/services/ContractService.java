@@ -1,10 +1,10 @@
 package ufersa.com.br.labor_renter.domain.services;
 
 import jakarta.transaction.Transactional;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ufersa.com.br.labor_renter.api.dto.requests.ContractCreateRequest;
 import ufersa.com.br.labor_renter.api.dto.responses.ContractResponse;
+import ufersa.com.br.labor_renter.api.exceptions.ResourceNotFoundException;
 import ufersa.com.br.labor_renter.domain.entities.Contract;
 import ufersa.com.br.labor_renter.domain.entities.Contractor;
 import ufersa.com.br.labor_renter.domain.entities.Job;
@@ -40,7 +40,7 @@ public class ContractService {
 
     public ContractResponse findById(Long id) {
         Contract c = contractRepository.findById(id)
-                .orElseThrow(() -> new DataIntegrityViolationException("Id não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Id não encontrado"));
 
         return new ContractResponse(c);
     }
@@ -48,13 +48,13 @@ public class ContractService {
     @Transactional(rollbackOn = Exception.class)
     public ContractResponse create(ContractCreateRequest request) {
         Contractor contractor = contractorRepository.findById(request.getContractorId())
-                .orElseThrow(() -> new IllegalArgumentException("Contratante não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Contratante não encontrado"));
 
         UserWorker worker = userWorkerRepository.findById(request.getUserWorkerId())
-                .orElseThrow(() -> new IllegalArgumentException("Trabalhador não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trabalhador não encontrado"));
 
         Job job = jobRepository.findById(request.getJobId())
-                .orElseThrow(() -> new IllegalArgumentException("Trabalho não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trabalho não encontrado"));
 
         Contract entity = Contract.builder()
                 .contractor(contractor)
@@ -68,7 +68,7 @@ public class ContractService {
     @Transactional(rollbackOn = Exception.class)
     public void delete(Long id) {
         Contract contract = contractRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Contrato com ID " + id + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Contrato com ID " + id + " não encontrado"));
 
         contractRepository.delete(contract);
     }
@@ -76,16 +76,16 @@ public class ContractService {
     @Transactional(rollbackOn = Exception.class)
     public ContractResponse update(Long id, ContractCreateRequest request) {
         Contract existingContract = contractRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Contrato com ID " + id + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Contrato com ID " + id + " não encontrado"));
 
         Contractor contractor = contractorRepository.findById(request.getContractorId())
-                .orElseThrow(() -> new IllegalArgumentException("Contratante com ID " + request.getContractorId() + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Contratante com ID " + request.getContractorId() + " não encontrado"));
 
         UserWorker worker = userWorkerRepository.findById(request.getUserWorkerId())
-                .orElseThrow(() -> new IllegalArgumentException("Trabalhador com ID " + request.getUserWorkerId() + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trabalhador com ID " + request.getUserWorkerId() + " não encontrado"));
 
         Job job = jobRepository.findById(request.getJobId())
-                .orElseThrow(() -> new IllegalArgumentException("Trabalho com ID " + request.getJobId() + " não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Trabalho com ID " + request.getJobId() + " não encontrado"));
 
         existingContract.setContractor(contractor);
         existingContract.setWorker(worker);

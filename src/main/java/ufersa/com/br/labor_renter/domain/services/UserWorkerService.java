@@ -3,6 +3,7 @@ package ufersa.com.br.labor_renter.domain.services;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ufersa.com.br.labor_renter.api.exceptions.ResourceNotFoundException;
 import ufersa.com.br.labor_renter.domain.entities.UserWorker;
 import ufersa.com.br.labor_renter.domain.repositories.UserWorkerRepository;
 
@@ -22,7 +23,7 @@ public class UserWorkerService {
     public UserWorker findById(Long id) throws Exception {
         try {
             return userWorkerRepository.findById(id)
-                    .orElseThrow(() -> new Exception("ID inexistente"));
+                    .orElseThrow(() -> new ResourceNotFoundException("ID inexistente"));
         } catch (Exception e) {
             throw new Exception(e);
         }
@@ -42,7 +43,7 @@ public class UserWorkerService {
     // depois fazer exceptions personalizadas
     public UserWorker update(Long id, UserWorker u) throws Exception {
         UserWorker userWorkerExist = userWorkerRepository.findById(id)
-                .orElseThrow(() -> new Exception("ID inexistente"));
+                .orElseThrow(() -> new ResourceNotFoundException("ID inexistente"));
 
         userWorkerExist.setName(u.getName());
         userWorkerExist.setCpf(u.getCpf());

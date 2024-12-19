@@ -1,10 +1,11 @@
 package ufersa.com.br.labor_renter.domain.services;
 
 import jakarta.transaction.Transactional;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ufersa.com.br.labor_renter.api.dto.requests.AddressRequest;
 import ufersa.com.br.labor_renter.api.dto.responses.AddressResponse;
+import ufersa.com.br.labor_renter.api.exceptions.EntityAlreadyExistsException;
+import ufersa.com.br.labor_renter.api.exceptions.ResourceNotFoundException;
 import ufersa.com.br.labor_renter.domain.entities.Address;
 import ufersa.com.br.labor_renter.domain.entities.Contractor;
 import ufersa.com.br.labor_renter.domain.repositories.AddressRepository;
@@ -36,7 +37,7 @@ public class AddressService {
 
     public List<AddressResponse> getAllOfUser(long user_id) {
         Contractor user = contractorRepository.findById(user_id).orElseThrow(() ->
-                new DataIntegrityViolationException("Usuário não encontrado")
+                new ResourceNotFoundException("Usuário relacionado ao endereço não existe")
         );
 
         List<Address> addresses = user.getAddress();
@@ -51,7 +52,7 @@ public class AddressService {
 
     public AddressResponse get(long address_id) {
         Address entity = addressRepository.findById(address_id).orElseThrow(
-                () -> new DataIntegrityViolationException("Endereço não registrado")
+                () -> new ResourceNotFoundException("Endereço buscado não registrado")
         );
 
         return new AddressResponse(entity);
@@ -60,7 +61,7 @@ public class AddressService {
     @Transactional(rollbackOn = Exception.class)
     public AddressResponse create(long user_id, AddressRequest request) {
         Contractor user = contractorRepository.findById(user_id).orElseThrow(
-                () -> new DataIntegrityViolationException("Usuário não existe")
+                () -> new ResourceNotFoundException("Usuário não existe")
         );
 
         List<Address> addresses = user.getAddress();
@@ -69,7 +70,7 @@ public class AddressService {
         if(!addresses.isEmpty()) {
             for(Address a : addresses) {
                 if(a.getCep().equals(request.getCep())) {
-                    throw new DataIntegrityViolationException("Endereço já cadastrado nesse usuário");
+                    throw new EntityAlreadyExistsException("Endereço já cadastrado nesse usuário");
                 }
             }
         }
@@ -90,7 +91,7 @@ public class AddressService {
     @Transactional(rollbackOn = Exception.class)
     public void delete(long address_id) {
         Address address = addressRepository.findById(address_id).orElseThrow(
-                () -> new DataIntegrityViolationException("Endereço não registrado")
+                () -> new ResourceNotFoundException("Endereço não registrado")
         );
 
         addressRepository.delete(address);
@@ -99,7 +100,7 @@ public class AddressService {
     @Transactional(rollbackOn = Exception.class)
     public AddressResponse update(long address_id, AddressRequest request) {
         Address entity = addressRepository.findById(address_id).orElseThrow(
-                () -> new DataIntegrityViolationException("Endereço não registrado")
+                () -> new ResourceNotFoundException("Endereço não registrado")
         );
 
         entity.setCep(request.getCep() != null ? request.getCep() : entity.getCep());
