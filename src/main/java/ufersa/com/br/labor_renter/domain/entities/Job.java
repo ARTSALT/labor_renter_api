@@ -17,7 +17,6 @@ public class Job {
     private Long id;
 
     @OneToOne
-    //turn cascade to all
     @JoinColumn(name = "worker_id", referencedColumnName = "id", nullable = false)
     private UserWorker worker;
 
