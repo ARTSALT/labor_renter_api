@@ -85,6 +85,14 @@ public class JobService {
         return new JobResponse(jobRepository.save(existingJob));
     }
 
+       public List<JobResponse> searchByDescription(String description) {
+            List<Job> jobs = jobRepository.findByDescriptionContainingIgnoreCase(description);
+    
+            return jobs.stream()
+                    .map(JobResponse::new) 
+                    .collect(Collectors.toList());
+        }
+
 
 
 
