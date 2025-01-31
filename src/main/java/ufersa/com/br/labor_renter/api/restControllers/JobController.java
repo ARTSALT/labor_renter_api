@@ -64,4 +64,10 @@ public class JobController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<JobResponse>> searchByDescription(@RequestParam String q) {
+        List<JobResponse> results = service.searchByDescription(q);
+        return ResponseEntity.ok(results);
+    }
 }
