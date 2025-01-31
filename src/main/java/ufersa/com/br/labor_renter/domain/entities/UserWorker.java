@@ -1,9 +1,10 @@
 package ufersa.com.br.labor_renter.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -15,5 +16,8 @@ import lombok.*;
 public class UserWorker extends Contractor {
     @Column(nullable = false)
     private String documento;
+
+    @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Job> jobs = new ArrayList<>();
 
 }

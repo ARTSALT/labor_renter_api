@@ -12,6 +12,7 @@ import ufersa.com.br.labor_renter.domain.services.ContractorService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api/v1/contractor")
 public class ContractorController {
     private final ContractorService service;

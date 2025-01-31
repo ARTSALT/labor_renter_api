@@ -18,7 +18,8 @@ public class JobResponse {
     private String workerName;
     private Double avaliation;
     private String description;
-    private Long location;
+    private String location;
+    private Double price;
     private List<Long> contractIds;
 
     public JobResponse(Job entity) {
@@ -26,7 +27,8 @@ public class JobResponse {
         this.workerName = entity.getWorker().getName();
         this.avaliation = entity.getAvaliation();
         this.description = entity.getDescription();
-        this.location = entity.getLocation().getId();
+        this.location = entity.getLocation();
+        this.price = entity.getPrice();
         this.contractIds = entity.getContracts().stream().map(Contract::getId).toList();
     }
 }

@@ -10,6 +10,7 @@ import ufersa.com.br.labor_renter.domain.services.ContractService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/contract")
 public class ContractController {
     private final ContractService service;

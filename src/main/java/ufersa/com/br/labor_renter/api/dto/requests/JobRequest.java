@@ -17,14 +17,18 @@ public class JobRequest {
     private Long workerId;
 
     @NotNull(message = "O campo localização é obrigatório")
-    private Long locationId;
+    private String location;
 
-    @NotBlank(message = "A descrição é obrigatória")
+    @NotBlank(message = "O campo descrição é obrigatório")
     private String description;
+
+    @NotBlank(message = "O campo preço é obrigatório")
+    private Double price;
 
     public JobRequest(Job entity) {
         this.workerId = entity.getWorker().getId();
-        this.locationId = entity.getLocation().getId();
         this.description = entity.getDescription();
+        this.location = entity.getLocation();
+        this.price = entity.getPrice();
     }
 }

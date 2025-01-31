@@ -20,17 +20,14 @@ import java.util.stream.Collectors;
 public class JobService {
     private final JobRepository jobRepository;
     private final UserWorkerRepository userWorkerRepository;
-    private final AddressRepository addressRepository;
 
-    public JobService(JobRepository repository, JobRepository jobRepository, UserWorkerRepository userWorkerRepository, AddressRepository addressRepository) {
+    public JobService(JobRepository jobRepository, UserWorkerRepository userWorkerRepository) {
         this.jobRepository = jobRepository;
         this.userWorkerRepository = userWorkerRepository;
-        this.addressRepository = addressRepository;
     }
 
     public List<JobResponse> findAll() {
         List<Job> response = jobRepository.findAll();
-
         return response.stream().map(JobResponse::new).collect(Collectors.toList());
     }
 
@@ -45,14 +42,12 @@ public class JobService {
         UserWorker worker = userWorkerRepository.findById(request.getWorkerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Trabalhador não encontrado"));
 
-        Address location = addressRepository.findById(request.getLocationId())
-                .orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado"));
-
         Job job = new Job();
         job.setWorker(worker);
-        job.setLocation(location);
+        job.setLocation(request.getLocation()); // Usando o campo location diretamente
         job.setDescription(request.getDescription());
         job.setAvaliation(0.0);
+        job.setPrice(request.getPrice());
         job.setContracts(new ArrayList<>());
 
         Job savedJob = jobRepository.save(job);
@@ -76,11 +71,10 @@ public class JobService {
         UserWorker worker = userWorkerRepository.findById(request.getWorkerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Trabalhador com ID " + request.getWorkerId() + " não encontrado"));
 
-        Address location = addressRepository.findById(request.getLocationId())
-                .orElseThrow(() -> new ResourceNotFoundException("Endereço com ID " + request.getLocationId() + " não encontrado"));
-
-        existingJob.setLocation(location);
+        existingJob.setWorker(worker);
+        existingJob.setLocation(request.getLocation());
         existingJob.setDescription(request.getDescription());
+        existingJob.setPrice(request.getPrice());
 
         return new JobResponse(jobRepository.save(existingJob));
     }

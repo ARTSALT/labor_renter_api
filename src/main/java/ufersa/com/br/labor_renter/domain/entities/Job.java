@@ -16,7 +16,7 @@ public class Job {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "worker_id", referencedColumnName = "id", nullable = false)
     private UserWorker worker;
 
@@ -26,9 +26,11 @@ public class Job {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne
-    @JoinColumn(name = "Address_id", referencedColumnName = "id", nullable = false)
-    private Address location;
+    @Column(nullable = false)
+    private String location;
+
+    @Column(nullable = false)
+    private Double price;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contract> contracts;

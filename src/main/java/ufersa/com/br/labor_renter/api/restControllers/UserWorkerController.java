@@ -10,6 +10,7 @@ import ufersa.com.br.labor_renter.domain.services.UserWorkerService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/userworkers")
 public class UserWorkerController {
 
