@@ -10,7 +10,7 @@ import ufersa.com.br.labor_renter.domain.services.ContractService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/contract")
+@RequestMapping("/api/v1/contract")
 public class ContractController {
     private final ContractService service;
 

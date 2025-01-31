@@ -10,7 +10,8 @@ import ufersa.com.br.labor_renter.domain.services.JobService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/job")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/v1/job")
 public class JobController {
     private final JobService service;
 
